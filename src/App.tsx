@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Logo from "./components/Logo";
 import Login from "./pages/Login";
 import AstronautDashboard from "./pages/AstronautDashboard";
@@ -8,6 +8,7 @@ import AstronautProfile from "./pages/AstronautProfile";
 import Research from "./pages/Research";
 import { ASTRONAUTS, CURRENT_DAY, MISSION_DAYS, type HealthRecord } from "./types";
 import { allRecords, loadCheckIns, resetDemoData, saveCheckIn } from "./data/store";
+import { IconUser, IconMedical, IconOrbit, IconSun, IconMoon, IconReset, IconLogout } from "./components/icons";
 
 type View = "login" | "astronaut" | "checkin" | "medical" | "profile" | "research";
 
@@ -50,7 +51,7 @@ export default function App() {
     );
   }
 
-  const navBtn = (v: View, label: string) => (
+  const navBtn = (v: View, label: ReactNode) => (
     <button
       className={view === v || (v === "medical" && view === "profile") || (v === "astronaut" && view === "checkin") ? "active" : ""}
       onClick={() => setView(v)}
@@ -72,20 +73,20 @@ export default function App() {
           </div>
 
           <div className="day-selector">
-            <span className="small muted">Mission day</span>
+            <span className="cap">Mission day</span>
             <input type="range" min={1} max={MISSION_DAYS} value={day} onChange={(e) => setDay(Number(e.target.value))} />
-            <b style={{ minWidth: 58 }}>Day {day}{day === CURRENT_DAY ? " · today" : ""}</b>
+            <span className="day-num">Day {day}{day === CURRENT_DAY ? " · today" : ""}</span>
           </div>
 
           <nav className="nav">
-            {navBtn("astronaut", "🧑‍🚀 Astronaut")}
-            {navBtn("medical", "🩺 Medical Team")}
-            {navBtn("research", "☢ NASA Radiation")}
+            {navBtn("astronaut", <><IconUser /> Astronaut</>)}
+            {navBtn("medical", <><IconMedical /> Medical Team</>)}
+            {navBtn("research", <><IconOrbit /> NASA Radiation</>)}
             <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} title="Toggle light / dark">
-              {theme === "dark" ? "☀️" : "🌙"}
+              {theme === "dark" ? <IconSun /> : <IconMoon />}
             </button>
-            <button onClick={handleReset} title="Clear saved check-ins and restore demo data">↺ Reset data</button>
-            <button onClick={() => setView("login")}>Log out</button>
+            <button onClick={handleReset} title="Clear saved check-ins and restore demo data"><IconReset /> Reset data</button>
+            <button onClick={() => setView("login")}><IconLogout /> Log out</button>
           </nav>
         </header>
 
