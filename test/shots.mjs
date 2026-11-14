@@ -28,6 +28,13 @@ await page.waitForTimeout(1200);
 await page.screenshot({ path: `${OUT}04-research.png` });
 console.log("shot 04-research");
 
+await page.getByRole("button", { name: /ASTRA RADAR/ }).click();
+await page.waitForTimeout(1200);
+await page.screenshot({ path: `${OUT}10-radar.png` });
+console.log("shot 10-radar");
+await page.screenshot({ path: `${OUT}11-radar-full.png`, fullPage: true });
+console.log("shot 11-radar-full");
+
 await page.getByRole("button", { name: /Astronaut/ }).first().click();
 await page.waitForTimeout(1200);
 await page.screenshot({ path: `${OUT}05-astronaut.png` });
