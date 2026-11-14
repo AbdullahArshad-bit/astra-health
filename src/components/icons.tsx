@@ -47,3 +47,6 @@ export const IconArrow = () => (
 export const IconPlus = () => (
   <svg {...base}><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
 );
+export const IconRadar = () => (
+  <svg {...base}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4.5" /><line x1="12" y1="12" x2="18.5" y2="5.5" /><circle cx="16.6" cy="9.6" r="1.1" fill="currentColor" stroke="none" /></svg>
+);
