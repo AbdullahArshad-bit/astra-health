@@ -73,6 +73,14 @@ Nine screenshots were captured and **visually inspected**:
 Screenshots are kept in `test/shots/` and can be regenerated with `npm run shots`
 (serve `dist/` on port 4173 first).
 
+*Post-delivery fix (same day):* the project owner reported that on his phone —
+and on desktop while scrolled — page content showed through the translucent
+sticky header, worst in light mode inside browser webviews without
+backdrop-filter support. The header is now fully opaque and slimmer on phones,
+and tables scroll horizontally instead of crushing. Re-verified with scrolled
+screenshots on desktop and mobile in light mode (`test/shots/12–14`): no
+content shows through the header, and all 30 automated tests still pass.
+
 ## 5. Checklist from the project brief (§11) — verdicts
 
 | Brief item | Verified by | Result |
