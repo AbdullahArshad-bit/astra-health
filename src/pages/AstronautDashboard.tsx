@@ -1,6 +1,7 @@
 import { ASTRONAUTS, CURRENT_DAY, type HealthRecord } from "../types";
 import { recordsFor, latestFor } from "../data/store";
 import { Kpi, TrendChart } from "../components/ui";
+import { IconHeart, IconMoon, IconActivity, IconBattery, IconPlus } from "../components/icons";
 
 export default function AstronautDashboard({
   records, astronautId, day, onSelectAstronaut, onCheckIn,
@@ -16,6 +17,21 @@ export default function AstronautDashboard({
   const latest = latestFor(records, astronautId, day);
   const chartData = history.map((r) => ({ day: r.day, heartRate: r.heartRate, sleepHours: r.sleepHours }));
   const recent = [...history].slice(-7).reverse();
+  const previous = latest ? history.filter((r) => r.day !== latest.day) : history;
+  const avgOf = (recs: HealthRecord[], field: keyof HealthRecord): number | undefined => {
+    const vals = recs.map((r) => r[field]).filter((v): v is number => typeof v === "number");
+    return vals.length ? Math.round((vals.reduce((s, v) => s + v, 0) / vals.length) * 10) / 10 : undefined;
+  };
+  const delta = (field: keyof HealthRecord, unit: string, goodWhenUp: boolean, min: number, digits = 0) => {
+    const cur = latest?.[field] as number | undefined;
+    const base = avgOf(previous, field);
+    if (cur === undefined || base === undefined) return undefined;
+    const d = cur - base;
+    if (Math.abs(d) < min) return { text: "● steady vs your average", cls: "flat" };
+    const up = d > 0;
+    const good = up === goodWhenUp;
+    return { text: `${up ? "▲" : "▼"} ${Math.abs(d).toFixed(digits)} ${unit} vs your average`, cls: good ? (up ? "up-good" : "down-good") : up ? "up-bad" : "down-bad" };
+  };
 
   return (
     <div>
@@ -26,12 +42,13 @@ export default function AstronautDashboard({
               {astronaut.initials}
             </div>
             <div>
-              <h2 style={{ margin: 0, fontSize: 24 }}>{astronaut.name}</h2>
-              <div className="muted small">{astronaut.role} · {astronaut.id} · Mission day {day} of 30</div>
+              <div className="eyebrow" style={{ marginBottom: 3 }}>Crew member · {astronaut.id}</div>
+              <h2 style={{ margin: 0, fontSize: 25 }}>{astronaut.name}</h2>
+              <div className="muted small">{astronaut.role} · Mission day {day} of 30</div>
             </div>
           </div>
           <button className="btn btn-primary btn-big" onClick={onCheckIn}>
-            ✚ Daily Check-in {day < CURRENT_DAY ? `(for day ${CURRENT_DAY})` : ""}
+            <IconPlus /> Daily Check-in {day < CURRENT_DAY ? `(for day ${CURRENT_DAY})` : ""}
           </button>
         </div>
         <div className="row mt">
@@ -48,10 +65,10 @@ export default function AstronautDashboard({
       {latest ? (
         <>
           <div className="grid kpi-grid mb">
-            <Kpi label="Heart rate" value={latest.heartRate ?? "—"} unit="bpm" sub={`Day ${latest.day}`} />
-            <Kpi label="Sleep" value={latest.sleepHours ?? "—"} unit="hrs" sub={`Night before day ${latest.day}`} />
-            <Kpi label="Exercise" value={latest.exerciseMinutes ?? "—"} unit="min" sub={`Day ${latest.day}`} />
-            <Kpi label="Fatigue" value={latest.fatigue ?? "—"} unit="/ 10" sub={`Day ${latest.day}`} />
+            <Kpi icon={<IconHeart />} label="Heart rate" value={latest.heartRate ?? "—"} unit="bpm" sub={`Day ${latest.day}`} delta={delta("heartRate", "bpm", false, 4)} />
+            <Kpi icon={<IconMoon />} label="Sleep" value={latest.sleepHours ?? "—"} unit="hrs" sub={`Night before day ${latest.day}`} delta={delta("sleepHours", "h", true, 0.4, 1)} />
+            <Kpi icon={<IconActivity />} label="Exercise" value={latest.exerciseMinutes ?? "—"} unit="min" sub={`Day ${latest.day}`} delta={delta("exerciseMinutes", "min", true, 12)} />
+            <Kpi icon={<IconBattery />} label="Fatigue" value={latest.fatigue ?? "—"} unit="/ 10" sub={`Day ${latest.day}`} delta={delta("fatigue", "pts", false, 1.5)} />
           </div>
 
           <div className="glass pad mb">
