@@ -15,6 +15,8 @@ import { computeFlags } from "../src/data/flags";
 import { allRecords, loadCheckIns, saveCheckIn, resetDemoData, recordsFor, latestFor } from "../src/data/store";
 import { ASTRONAUTS, CURRENT_DAY } from "../src/types";
 import tepc from "../src/data/tepc.json";
+import radlab from "../src/data/radlab.json";
+import eda from "../src/data/eda.json";
 
 let passed = 0, failed = 0;
 function check(name: string, cond: boolean, detail = "") {
@@ -63,6 +65,25 @@ check("TEPC variable is DOSE with units uGy/min", tepc.variable === "DOSE" && te
 check("TEPC has 192 samples", tepc.samples.length === 192, `got ${tepc.samples.length}`);
 check("TEPC samples are real numbers in a sane range", tepc.samples.every(s => typeof s.v === "number" && s.v > 0 && s.v < 50));
 check("TEPC timestamps parse and ascend", tepc.samples.every((s, i) => !isNaN(Date.parse(s.t)) && (i === 0 || Date.parse(s.t) > Date.parse(tepc.samples[i - 1].t))));
+
+console.log("— RadLab (real NASA data, ASTRA RADAR) —");
+const asc = (ts: string[]) => ts.every((t, i) => !isNaN(Date.parse(t.replace(" ", "T"))) && (i === 0 || Date.parse(t.replace(" ", "T")) > Date.parse(ts[i - 1].replace(" ", "T"))));
+check("RadLab source is NASA OSDR RadLab", radlab.source.includes("RadLab") && radlab.sourceUrl.includes("visualization.osdr.nasa.gov/radlab"));
+const dostel = radlab.series.find(s => s.id === "dostel1-2018-01-01")!;
+check("DosTel1 series present with units μGy/hour (as RadLab documents)", dostel.instrumentId === "DosTel1" && dostel.units === "μGy/hour");
+check("DosTel1 ships 226 thinned samples of 904 retrieved", dostel.samples.length === 226 && dostel.window.recordsRetrieved === 904, `got ${dostel.samples.length}/${dostel.window.recordsRetrieved}`);
+check("DosTel1 values are real numbers in a sane range", dostel.samples.every(s => typeof s.v === "number" && s.v > 0 && s.v < 600));
+check("DosTel1 timestamps parse and ascend", asc(dostel.samples.map(s => s.t)));
+const ivtepc = radlab.series.find(s => s.id === "ivtepc-nod2pd3-daily")!;
+check("IV-TEPC daily series has all 64 values", ivtepc.samples.length === 64 && ivtepc.instrumentId === "IV-TEPC-NOD2PD3-pre", `got ${ivtepc.samples.length}`);
+check("IV-TEPC daily values in a sane range", ivtepc.samples.every(s => s.v > 5 && s.v < 30));
+check("IV-TEPC timestamps parse and ascend", asc(ivtepc.samples.map(s => s.t)));
+
+console.log("— EDA (real NASA data, ASTRA RADAR) —");
+check("EDA mission is Rodent Research-1", eda.mission.includes("Rodent Research-1") && eda.sourceUrl.includes("visualization.osdr.nasa.gov/eda"));
+check("EDA ships 144 thinned samples of 864 in the window", eda.samples.length === 144 && eda.window.recordsRetrieved === 864, `got ${eda.samples.length}/${eda.window.recordsRetrieved}`);
+check("EDA values in sane ranges (temp/rh/co2)", eda.samples.every(s => s.temp > 15 && s.temp < 30 && s.rh > 20 && s.rh < 80 && s.co2 > 400 && s.co2 < 6000));
+check("EDA timestamps parse and ascend", asc(eda.samples.map(s => s.t)));
 
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);
