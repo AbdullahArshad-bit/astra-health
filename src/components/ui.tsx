@@ -4,26 +4,31 @@ import {
   AreaChart, Area,
 } from "recharts";
 import type { Flag } from "../types";
+import { IconAlert, IconCheck } from "./icons";
 
-export function Kpi({ label, value, unit, sub }: { label: string; value: ReactNode; unit?: string; sub?: string }) {
+export function Kpi({ label, value, unit, sub, icon, delta }: {
+  label: string; value: ReactNode; unit?: string; sub?: string;
+  icon?: ReactNode; delta?: { text: string; cls: string };
+}) {
   return (
     <div className="glass kpi">
-      <div className="label">{label}</div>
+      <div className="label">{icon}{label}</div>
       <div className="value">{value}{unit && <span className="unit">{unit}</span>}</div>
       {sub && <div className="sub">{sub}</div>}
+      {delta && <div className={`delta ${delta.cls}`}>{delta.text}</div>}
     </div>
   );
 }
 
 export function FlagList({ flags, emptyText }: { flags: Flag[]; emptyText: string }) {
   if (flags.length === 0) {
-    return <div className="ok-note"><b>✓ Steady</b> — {emptyText}</div>;
+    return <div className="ok-note"><b style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconCheck /> Steady</b> — {emptyText}</div>;
   }
   return (
     <div className="grid" style={{ gap: 10 }}>
       {flags.map((f, i) => (
         <div className="flag" key={i}>
-          <span aria-hidden>⚠</span>
+          <span aria-hidden style={{ color: "var(--warn)", display: "flex", marginTop: 1 }}><IconAlert /></span>
           <span><b>{f.metric}:</b> {f.message}</span>
         </div>
       ))}
