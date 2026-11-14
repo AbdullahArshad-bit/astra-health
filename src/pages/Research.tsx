@@ -1,6 +1,7 @@
 import TepcChart, { tepcMeta } from "../components/TepcChart";
 import tepc from "../data/tepc.json";
 import { Kpi } from "../components/ui";
+import { IconAlert } from "../components/icons";
 
 export default function Research() {
   const meta = tepcMeta();
@@ -39,7 +40,7 @@ export default function Research() {
 
       <div className="grid two-col mb">
         <div className="glass pad">
-          <h3 style={{ margin: "0 0 8px" }}>⚠ What this data is — and is not</h3>
+          <h3 style={{ margin: "0 0 8px", display: "flex", gap: 8, alignItems: "center" }}><span style={{ color: "var(--warn)", display: "flex" }}><IconAlert /></span> What this data is — and is not</h3>
           <p style={{ fontSize: 14, lineHeight: 1.65 }}>
             This dataset measures the <b>environmental radiation around and inside the ISS</b> — it is{" "}
             <b>not</b> the personal radiation exposure of any individual astronaut. No astronaut in this app
