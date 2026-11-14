@@ -6,11 +6,12 @@ import CheckInForm from "./pages/CheckInForm";
 import MedicalDashboard from "./pages/MedicalDashboard";
 import AstronautProfile from "./pages/AstronautProfile";
 import Research from "./pages/Research";
+import Radar from "./pages/Radar";
 import { ASTRONAUTS, CURRENT_DAY, MISSION_DAYS, type HealthRecord } from "./types";
 import { allRecords, loadCheckIns, resetDemoData, saveCheckIn } from "./data/store";
-import { IconUser, IconMedical, IconOrbit, IconSun, IconMoon, IconReset, IconLogout } from "./components/icons";
+import { IconUser, IconMedical, IconOrbit, IconRadar, IconSun, IconMoon, IconReset, IconLogout } from "./components/icons";
 
-type View = "login" | "astronaut" | "checkin" | "medical" | "profile" | "research";
+type View = "login" | "astronaut" | "checkin" | "medical" | "profile" | "research" | "radar";
 
 export default function App() {
   const [view, setView] = useState<View>("login");
@@ -82,6 +83,7 @@ export default function App() {
             {navBtn("astronaut", <><IconUser /> Astronaut</>)}
             {navBtn("medical", <><IconMedical /> Medical Team</>)}
             {navBtn("research", <><IconOrbit /> NASA Radiation</>)}
+            {navBtn("radar", <><IconRadar /> ASTRA RADAR</>)}
             <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} title="Toggle light / dark">
               {theme === "dark" ? <IconSun /> : <IconMoon />}
             </button>
@@ -118,11 +120,13 @@ export default function App() {
             />
           )}
           {view === "research" && <Research />}
+          {view === "radar" && <Radar />}
         </main>
 
         <p className="footer-note">
           ASTRA HEALTH — NASA Space Apps Challenge 2026 prototype · Not a medical device ·
           Crew records are fictional demonstration data · Radiation data: NASA CDAWeb, ISS TEPC dataset ·
+          NASA RadLab &amp; EDA (Open Science Data Repository) ·
           Saved check-ins live only in this browser (localStorage).
         </p>
       </div>
