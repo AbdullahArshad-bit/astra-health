@@ -7,10 +7,13 @@ ASTRA HEALTH follows a fictional three-person crew through a 30-day ISS mission.
 Astronauts record a daily health check-in; the medical team watches the whole crew
 on one overview, gets simple self-explaining flags when someone's readings change
 unusually, and can open any astronaut's full history. A separate research page shows
-**genuine NASA radiation measurements** from the ISS TEPC instrument (NASA CDAWeb).
+**genuine NASA radiation measurements** from the ISS TEPC instrument (NASA CDAWeb),
+and the **ASTRA RADAR** page shows genuine historical ISS radiation and environment
+data from NASA's RadLab and Environmental Data App (EDA), clearly separated from
+the fictional crew demo.
 
 > This is a hackathon prototype, **not a real medical device**. Crew health records
-> are fictional demonstration data. The radiation page uses real NASA data.
+> are fictional demonstration data. The radiation pages use real NASA data.
 > ASTRA HEALTH is not affiliated with or endorsed by NASA.
 
 ## Features
@@ -30,6 +33,12 @@ unusually, and can open any astronaut's full history. A separate research page s
 - **NASA radiation research page** — verified sample of 192 genuine ISS TEPC dose-rate measurements
   (variable DOSE, uGy/min, January 2018) with KPI cards, a historical chart, a data table and full
   source attribution. A summary chart also appears on the medical dashboard.
+- **ASTRA RADAR page** — real space radiation data from NASA RadLab: DosTel1 absorbed dose rate
+  (µGy/hour, Columbus module, 1 Jan 2018, 226 charted samples of 904 retrieved), IV-TEPC daily
+  dose rates (64 daily values, Aug 2017 – Feb 2018), plus ISS environment telemetry from NASA EDA
+  for the Rodent Research-1 habitat (temperature, humidity and CO₂, 1–3 Oct 2014, 144 charted
+  samples of 864). Every chart carries its instrument, units, timestamps and source link, and the
+  page is explicitly labelled historical — nothing on it is simulated and none of it is live.
 - **Reset demo data** button, **light/dark mode**, responsive layout for phone and desktop.
 - Original Planet + Heartbeat logo; space-inspired branding without NASA logos.
 
@@ -75,12 +84,13 @@ The `dist/` folder can also be hosted on any static web host as-is.
    to open the profile and read why each flag appeared.
 4. Drag the **Mission day** slider in the top bar to view earlier days.
 5. Click **NASA Radiation** for the genuine NASA TEPC data page.
-6. **Reset data** clears your saved check-ins and restores the demo state.
+6. Click **ASTRA RADAR** for the RadLab radiation charts and EDA station-environment data.
+7. **Reset data** clears your saved check-ins and restores the demo state.
 
 ## Tests
 
 ```bash
-npm test   # 22 logic tests (tsx) + 8 UI walkthrough tests (vitest/jsdom)
+npm test   # 34 logic tests (tsx) + 9 UI walkthrough tests (vitest/jsdom)
 ```
 
 See `TESTING_REPORT.md` for everything that was verified, and
