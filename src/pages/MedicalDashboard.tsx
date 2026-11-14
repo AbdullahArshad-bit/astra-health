@@ -3,6 +3,7 @@ import { recordsFor, latestFor } from "../data/store";
 import { computeFlags } from "../data/flags";
 import { FlagList, MultiTrend } from "../components/ui";
 import TepcChart, { tepcMeta } from "../components/TepcChart";
+import { IconHeart, IconMoon, IconActivity, IconBattery, IconAlert, IconCheck } from "../components/icons";
 
 export default function MedicalDashboard({
   records, day, onOpenProfile, onOpenResearch,
@@ -17,6 +18,7 @@ export default function MedicalDashboard({
     <div>
       <div className="row spread mb">
         <div>
+          <div className="eyebrow" style={{ marginBottom: 4, maxWidth: 340 }}>Flight Medicine · Whole Crew</div>
           <h2 style={{ margin: 0, fontSize: 26 }}>Mission overview</h2>
           <div className="muted small">All crew · showing records up to mission day {day}</div>
         </div>
@@ -34,17 +36,20 @@ export default function MedicalDashboard({
               <div className="row">
                 <div className="avatar" style={{ background: `linear-gradient(135deg, ${a.accent}, #2563eb)` }}>{a.initials}</div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 16.5 }}>{a.name}</div>
+                  <div className="row" style={{ gap: 7 }}>
+                    <span className={`status-dot ${flags.length > 0 ? "warn" : "ok"}`} />
+                    <span style={{ fontWeight: 700, fontSize: 16.5 }}>{a.name}</span>
+                  </div>
                   <div className="muted small">{a.role} · {a.id}</div>
                 </div>
               </div>
               {latest ? (
                 <>
                   <div className="row mt" style={{ gap: 14 }}>
-                    <span className="small">❤️ <b>{latest.heartRate ?? "—"}</b> bpm</span>
-                    <span className="small">😴 <b>{latest.sleepHours ?? "—"}</b> h</span>
-                    <span className="small">🏃 <b>{latest.exerciseMinutes ?? "—"}</b> min</span>
-                    <span className="small">🔋 <b>{latest.fatigue ?? "—"}</b>/10 fatigue</span>
+                    <span className="small" style={{ display: "inline-flex", gap: 5, alignItems: "center" }}><IconHeart /> <b>{latest.heartRate ?? "—"}</b> bpm</span>
+                    <span className="small" style={{ display: "inline-flex", gap: 5, alignItems: "center" }}><IconMoon /> <b>{latest.sleepHours ?? "—"}</b> h</span>
+                    <span className="small" style={{ display: "inline-flex", gap: 5, alignItems: "center" }}><IconActivity /> <b>{latest.exerciseMinutes ?? "—"}</b> min</span>
+                    <span className="small" style={{ display: "inline-flex", gap: 5, alignItems: "center" }}><IconBattery /> <b>{latest.fatigue ?? "—"}</b>/10 fatigue</span>
                   </div>
                   <div className="muted small mt">
                     Mood {latest.mood ?? "—"} · Stress {latest.stress ?? "—"}/10 · Day {latest.day}
@@ -58,8 +63,8 @@ export default function MedicalDashboard({
                   </div>
                   <div className="mt">
                     {flags.length > 0
-                      ? <span className="chip demo">⚠ {flags.length} unusual change{flags.length > 1 ? "s" : ""} — open profile</span>
-                      : <span className="chip live">✓ No unusual changes</span>}
+                      ? <span className="chip demo"><IconAlert /> {flags.length} unusual change{flags.length > 1 ? "s" : ""} — open profile</span>
+                      : <span className="chip live"><IconCheck /> No unusual changes</span>}
                   </div>
                 </>
               ) : (
