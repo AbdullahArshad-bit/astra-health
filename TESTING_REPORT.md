@@ -81,6 +81,14 @@ and tables scroll horizontally instead of crushing. Re-verified with scrolled
 screenshots on desktop and mobile in light mode (`test/shots/12–14`): no
 content shows through the header, and all 30 automated tests still pass.
 
+*Design pass (same day, owner feedback "looks vibe-coded"):* full visual
+redesign in a mission-control direction — Space Grotesk / Inter / JetBrains
+Mono type system, blueprint grid backdrop, solid header, mission-patch login
+hero with a mission stats strip, stroke icons replacing all emoji, status
+dots on crew cards, and per-astronaut "vs your average" deltas on the
+astronaut dashboard KPIs. No behaviour changed; all 30 automated tests pass
+and every screen was re-screenshotted (`test/shots/01–14`).
+
 ## 5. Checklist from the project brief (§11) — verdicts
 
 | Brief item | Verified by | Result |
