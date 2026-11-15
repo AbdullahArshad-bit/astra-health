@@ -46,10 +46,9 @@ mission, day by day:
   radiation measurements from instruments aboard the ISS, and real station
   habitat telemetry (temperature, humidity, CO₂).
 
-![ASTRA RADAR — real NASA RadLab radiation data](test/shots/10-radar.png)
-*ASTRA RADAR: a full day of DosTel1 absorbed dose-rate readings aboard the ISS.
-The tall spikes are real — the station's orbit crossing the South Atlantic
-Anomaly, where Earth's magnetic shield is weaker.*
+![ASTRA RADAR — real NASA EDA station-environment data](test/shots/10-radar.png)
+*ASTRA RADAR: real ISS habitat telemetry from NASA's EDA — temperature,
+humidity and CO₂ recorded by the Rodent Research-1 habitat sensors.*
 
 ---
 
@@ -82,8 +81,8 @@ Anomaly, where Earth's magnetic shield is weaker.*
 5. **Click NASA Radiation.** This is real data: 192 genuine ISS TEPC
    dose-rate measurements from NASA CDAWeb (January 2018), with the dataset
    ID, units and source link on the page.
-6. **Click ASTRA RADAR.** Real RadLab radiation charts (DosTel1, IV-TEPC) and
-   real station environment telemetry from NASA's EDA. Read the banner:
+6. **Click ASTRA RADAR.** Real station environment telemetry from NASA's
+   EDA — temperature, humidity and CO₂ aboard the ISS. Read the banner:
    historical NASA data, kept strictly separate from the fictional crew demo.
 7. **Reset data** (top bar) restores the demo to its starting state.
 
@@ -101,7 +100,7 @@ Anomaly, where Earth's magnetic shield is weaker.*
 >
 > And because crew health does not happen in a vacuum, we connected the app
 > to the station itself: two pages of **genuine NASA data** — radiation
-> measured aboard the ISS by the TEPC and DosTel instruments, and real
+> measured aboard the ISS by the TEPC instrument, and real
 > habitat temperature, humidity and CO₂ telemetry. The fictional demo and the
 > real NASA data are labelled and kept separate, everywhere.
 >
@@ -145,7 +144,7 @@ Astronaut ── daily check-in ──▶ local store (browser localStorage)
 
 Real NASA data (offline-verified extracts, shipped with the app):
   NASA CDAWeb TEPC ──▶ NASA Radiation page
-  NASA RadLab + EDA ──▶ ASTRA RADAR page
+  NASA EDA (OSDR) ──▶ ASTRA RADAR page
 ```
 
 - **Check-ins** are saved in the browser (localStorage), persist across
@@ -173,9 +172,15 @@ chart size) is documented per dataset in
 | Page | Source | Instrument / dataset | What it shows | Window & samples |
 |---|---|---|---|---|
 | NASA Radiation | NASA CDAWeb | ISS TEPC (`ISS_DOSANL_TEPC`), variable `DOSE` | Average dose rate inside the ISS, **uGy/min** | Jan 2018 · 192 points (of 5,748 real 1-min records) · avg 0.248, peak 9.394 |
-| ASTRA RADAR | NASA RadLab (OSDR) | DosTel1 (DOSTEL telescope, Columbus module) | Absorbed dose rate, **µGy/hour**, ~100 s cadence | 1 Jan 2018 · 226 charted (of 904 retrieved) · avg 27.34, peak 484.605 (South Atlantic Anomaly passes) |
-| ASTRA RADAR | NASA RadLab (OSDR) | IV-TEPC-NOD2PD3-pre (Node 2) | Daily absorbed dose rate, **µGy/hour** | 18 Aug 2017 – 1 Feb 2018 · all 64 daily values · avg 15.13 (≈ 0.25 uGy/min — agrees with the independent CDAWeb TEPC record) |
 | ASTRA RADAR | NASA EDA (OSDR) | Rodent Research-1 habitat sensors (SpaceX-4) | Temperature °C, relative humidity %, CO₂ ppm aboard the ISS | 1–3 Oct 2014 · 144 charted (of 864 genuine 5-min records) · 21.8–23.1 °C, RH 42–50 %, CO₂ 2,627–4,131 ppm |
+| ASTRA RADAR (sample table) | NASA RadLab (OSDR) | DosTel1 (DOSTEL telescope, Columbus module) | Absorbed dose rate, **µGy/hour**, ~100 s cadence | 1 Jan 2018 · sample table at the foot of the page shows every 16th of the 226-point extract (of 904 retrieved) · avg 27.34, peak 484.605 (South Atlantic Anomaly passes) |
+
+*Change note (15 Nov 2026): the ASTRA RADAR page originally also charted the
+RadLab DosTel1 and IV-TEPC series. For the final presentation the team
+simplified the page to the EDA environment view; the verified RadLab extract
+(all 64 IV-TEPC daily values included) remains in the project at
+`src/data/radlab.json`, with its method in `src/data/RADLAB-NOTES.md`, and a
+DosTel1 sample table still appears at the foot of the page.*
 
 Source links: [NASA CDAWeb TEPC dataset](https://cdaweb.gsfc.nasa.gov/cgi-bin/eval2.cgi?dataset=ISS_DOSANL_TEPC&index=sp_phys) ·
 [NASA RadLab](https://visualization.osdr.nasa.gov/radlab/) ·
@@ -194,8 +199,8 @@ The app says all of this on the pages themselves.
 
 ## Testing — everything verified, nothing assumed
 
-**43 automated tests, all passing** (re-run in full on 2026-11-14, including
-after the ASTRA RADAR addition), plus real-browser verification:
+**43 automated tests, all passing** (re-run in full on 2026-11-15, including
+after the ASTRA RADAR simplification), plus real-browser verification:
 
 | Layer | What runs | Result |
 |---|---|---|

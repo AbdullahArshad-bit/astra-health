@@ -82,15 +82,14 @@ describe("ASTRA HEALTH walkthrough", () => {
     expect(screen.getByText(/Sample of the measurements/)).toBeTruthy();
   });
 
-  it("ASTRA RADAR page shows RadLab and EDA data with sources and honest labels", () => {
+  it("ASTRA RADAR page shows EDA environment data with sources and honest labels", () => {
     render(<App />);
     fireEvent.click(screen.getByText(/Medical Team Demo/));
     fireEvent.click(screen.getByText(/ASTRA RADAR/));
-    expect(screen.getByText(/Real Space Radiation Data/)).toBeTruthy();
-    expect(screen.getAllByText(/μGy\/hour/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/DosTel1/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/temperature, humidity and CO₂/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Environmental Data App/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Rodent Research-1/).length).toBeGreaterThan(0);
-    expect(screen.getByText(/none of it is live/)).toBeTruthy();
+    expect(screen.getByText(/not a live feed/)).toBeTruthy();
     expect(screen.getAllByText(/fictional demonstration data/).length).toBeGreaterThan(0);
   });
 

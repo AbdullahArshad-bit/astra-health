@@ -144,3 +144,18 @@ and every screen was re-screenshotted (`test/shots/01–14`).
 - The TEPC dataset's coverage ends 2018-04-11, so the verified sample window
   is January 2018 — the most recent years of the dataset were used as retrieved.
 - Flag thresholds are simple demonstration rules, not clinical criteria.
+
+---
+
+## Addendum — 2026-11-15 (ASTRA RADAR simplification)
+
+On the morning of the final presentation day, the team simplified the ASTRA
+RADAR page: the RadLab DosTel1 and IV-TEPC charts and their KPI cards were
+removed, the page was retitled "ASTRA RADAR – temperature, humidity and CO₂",
+and its subtitle now carries the EDA source line with links. The EDA chart,
+the explanatory boxes and the DosTel1 sample table remain. The full suite was
+re-run after the change: **logic 34/34, UI 9/9 — 43/43 pass** (the RADAR UI
+test was updated to assert the EDA view), the production build is clean, all
+screenshots were regenerated and visually inspected, and the live GitHub
+Pages bundle was verified to contain the new page and none of the removed
+sections.

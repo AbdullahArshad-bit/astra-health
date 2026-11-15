@@ -57,6 +57,11 @@ crew-worn instruments that are not part of this dataset.
 
 ## 1b. NASA RadLab — ISS radiation telemetry (ASTRA RADAR page)
 
+**Display note (15 Nov 2026):** the DosTel1 and IV-TEPC charts were removed
+from the ASTRA RADAR page for the final presentation; the page now shows the
+EDA series (§1c) plus a DosTel1 sample table at its foot. This section remains
+the provenance record for the verified extract in `src/data/radlab.json`.
+
 **Portal:** NASA RadLab, Open Science Data Repository (OSDR) —
 https://visualization.osdr.nasa.gov/radlab/
 **Data API:** https://visualization.osdr.nasa.gov/radlab/api/ (docs:
