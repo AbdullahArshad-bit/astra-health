@@ -15,7 +15,7 @@ type View = "login" | "astronaut" | "checkin" | "medical" | "profile" | "researc
 
 export default function App() {
   const [view, setView] = useState<View>("login");
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
   const [astronautId, setAstronautId] = useState(ASTRONAUTS[0].id);
   const [day, setDay] = useState(CURRENT_DAY);
   const [checkIns, setCheckIns] = useState<HealthRecord[]>(() => loadCheckIns());
