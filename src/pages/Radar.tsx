@@ -1,4 +1,4 @@
-import { DostelChart, TepcDailyChart, EdaChart, radlabMeta, radlabSeriesMeta, edaMeta } from "../components/RadarChart";
+import { EdaChart, radlabMeta, radlabSeriesMeta, edaMeta } from "../components/RadarChart";
 import radlab from "../data/radlab.json";
 import { Kpi } from "../components/ui";
 import { IconAlert } from "../components/icons";
@@ -17,10 +17,12 @@ export default function Radar() {
     <div>
       <div className="row spread mb">
         <div>
-          <h2 style={{ margin: 0, fontSize: 26 }}>ASTRA RADAR – Real Space Radiation Data</h2>
+          <h2 style={{ margin: 0, fontSize: 26 }}>ASTRA RADAR – temperature, humidity and CO₂</h2>
           <div className="muted small">
-            Historical measurements from NASA's RadLab portal (Open Science Data Repository), recorded aboard
-            the International Space Station. Nothing on this page is simulated — and none of it is live.
+            Historical measurements from NASA Environmental Data App (EDA) — Open Science Data Repository
+            (OSDR) · Mission: Rodent Research-1 (RR-1) · Retrieved 2026-11-14 ·{" "}
+            <a href={eda.sourceUrl} target="_blank" rel="noreferrer">Open EDA at NASA OSDR</a> ·{" "}
+            <a href={eda.dashboardUrl} target="_blank" rel="noreferrer">Open the RR-1 dashboard</a>
           </div>
         </div>
         <span className="chip nasa">Real NASA data</span>
@@ -38,43 +40,7 @@ export default function Radar() {
       </div>
 
       <div className="grid kpi-grid mb">
-        <Kpi label="DosTel1 average dose rate" value={dostel.avg} unit={dostel.units} sub="1 Jan 2018, Columbus module" />
-        <Kpi label="DosTel1 peak dose rate" value={dostel.max} unit={dostel.units} sub="Highest reading in the charted sample" />
-        <Kpi label="IV-TEPC daily average" value={ivtepc.avg} unit={ivtepc.units} sub={`${ivtepc.count} daily values, Aug 2017 – Feb 2018`} />
         <Kpi label="ISS CO₂ average (EDA)" value={eda.co2.avg} unit="ppm" sub="Rodent Research-1 habitat, 1–3 Oct 2014" />
-      </div>
-
-      <div className="glass pad mb">
-        <div className="eyebrow">RadLab · DosTel1 · Columbus module</div>
-        <h3 style={{ margin: "0 0 4px" }}>{dostel.variableDescription} — DosTel1 ({dostel.units})</h3>
-        <p className="muted small mb">
-          One full day aboard the ISS, 1 January 2018, at the instrument's native cadence of about
-          100 seconds. The DosTel (DOSTEL) dosimetric telescope sits in the Columbus module. The sharp
-          spikes are real: dose rates jump when the station's orbit crosses the South Atlantic Anomaly,
-          where Earth's magnetic shield is weaker.
-        </p>
-        <DostelChart height={250} />
-        <p className="muted small mt">
-          Source: {rl.source} · Instrument: DosTel1 (ISS, Columbus) · Retrieved {rl.retrieved} via the{" "}
-          <a href={rl.apiDocUrl} target="_blank" rel="noreferrer">RadLab Data API</a> ·{" "}
-          <a href={rl.sourceUrl} target="_blank" rel="noreferrer">Open RadLab at NASA OSDR</a>
-        </p>
-      </div>
-
-      <div className="glass pad mb">
-        <div className="eyebrow">RadLab · IV-TEPC · Node 2</div>
-        <h3 style={{ margin: "0 0 4px" }}>Daily absorbed dose rate — IV-TEPC ({ivtepc.units})</h3>
-        <p className="muted small mb">
-          The same quantity over six months: one value per day from the IV-TEPC instrument in Node 2,
-          18 August 2017 to 1 February 2018 — every daily value RadLab holds for this instrument in that
-          window ({ivtepc.count} values). A useful cross-check: these daily means (≈{ivtepc.avg} μGy/hour
-          ≈ 0.25 uGy/min) agree with the independent CDAWeb TEPC record charted on the NASA Radiation page.
-        </p>
-        <TepcDailyChart height={220} />
-        <p className="muted small mt">
-          Source: {rl.source} · Instrument: IV-TEPC-NOD2PD3-pre (ISS, Node 2) · Retrieved {rl.retrieved} ·{" "}
-          <a href={rl.sourceUrl} target="_blank" rel="noreferrer">Open RadLab at NASA OSDR</a>
-        </p>
       </div>
 
       <div className="glass pad mb">
